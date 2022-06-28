@@ -1,7 +1,15 @@
 controllers:
-    resource: ../src/Controller/
-    type: annotation
+  resource: ../src/Controller/
+  type: annotation
 
 kernel:
-    resource: ../src/Kernel.php
-    type: annotation
+  resource: ../src/Kernel.php
+  type: annotation
+
+homepage:
+  path: /
+  controller: App\Controller\DialogController::defaultAction
+
+troll_api_endpoint:
+  path: /api/troll
+  controller: App\Controller\DialogController::apiAction
