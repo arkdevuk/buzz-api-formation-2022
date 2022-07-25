@@ -11,17 +11,23 @@
                 <div class="row">
                     <div class="col-12 col-md-8 position-relative mb-3">
                         <div class="hero-header-img-small position-relative">
-                            <img src="/assets/images/satisfactory.png" alt="satisfactory">
+                            {% if game.pictures.first != false %}
+                                <img src="{{ game.pictures.first.url }}"
+                                     alt="{{ game.name }}" class="">
+                            {% else %}
+                                <img src="/assets/images/satisfactory.png" alt="satisfactory">
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="col-12 col-md-4">
-                        <div class="mb-3 hero-header-img-small">
-                            <img src="/assets/images/satisfactory.png" class="w-100" alt="satisfactory">
-                        </div>
-                        <div class="mb-0 hero-header-img-small">
-                            <img src="/assets/images/satisfactory.png" alt="satisfactory">
-                        </div>
+                        {% for img in game.pictures %}
+                            {% if not loop.first and loop.index <= 4 %}
+                                <div class="mb-2 hero-header-img-small">
+                                    <img src="{{ img.url }}" alt="{{ game.name }}" class="w-100">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </section>
@@ -30,37 +36,16 @@
         <div class="container-custom">
             <section class="container py-3">
                 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
-                    <div class="col">
-                        <div class="card card-game">
-                            <div class="card-img-top">
-                                <img src="/assets/images/fifa.png" class="w-100" alt="satisfactory">
+                    {% for img in game.pictures %}
+                        <div class="col">
+                            <div class="card card-game">
+                                <div class="card-img-top">
+                                    <img src="{{ img.url }}"
+                                         class="w-100" alt="{{ game.name }}">
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card card-game">
-                            <div class="card-img-top">
-                                <img src="/assets/images/petite-image.png" class="w-100" alt="satisfactory">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card card-game">
-                            <div class="card-img-top">
-                                <img src="/assets/images/fifa.png" class="w-100" alt="satisfactory">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card card-game">
-                            <div class="card-img-top">
-                                <img src="/assets/images/petite-image.png" class="w-100" alt="satisfactory">
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="slider mt-3">
@@ -71,10 +56,8 @@
 
         <div class="container-custom">
             <section class="container py-3">
-                <h1 class="text-uppercase">Satisfactory</h1>
-                <p>Satisfactory est un jeu de construction d’usines en vue à la première personne dans un monde ouvert
-                    avec une touche d’exploration et de combats. Jouez seul ou entre amis, explorez une planète
-                    inconnue, construisez des usines à plusieurs niveaux et des tapis roulants à l’infini !</p>
+                <h1 class="text-uppercase">{{ game.name }}</h1>
+                <p>{{ game.description }}</p>
 
                 <div class="row  align-items-center justify-content-between">
                     <div class="col-12 col-md-3 mt-4">
@@ -103,28 +86,33 @@
                         <div class="bg-primary rounded">
                             <div class="caracteristique-line">
                                 <img src="/assets/images/amis.png">
-                                Solo
+                                Solo, Multijoueur
                             </div>
                             <div class="caracteristique-line">
                                 <img src="/assets/images/amis.png">
-                                Coop
-                            </div>
-                            <div class="caracteristique-line">
-                                <img src="/assets/images/amis.png">
-                                Multijoueur platforme
+                                <ul>
+                                    {% for genre in game.type %}
+                                        <li>{{ genre.name }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between caracteristique-line flex-wrap">
-                                <div class="badge rounded-pill bg-dark m-1">PC</div>
-                                <div class="badge rounded-pill bg-dark m-1">PS3</div>
-                                <div class="badge rounded-pill bg-dark m-1">XBOX</div>
-                                <div class="badge rounded-pill bg-dark m-1">Solo</div>
-                                <div class="badge rounded-pill bg-dark m-1">Coop</div>
+                                {% for platform in game.platforms %}
+                                    <div
+                                            class="badge rounded-pill bg-dark m-1">{{ platform }}</div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-7 mb-4">
-                        <img src="/assets/images/satisfactory.png" class="w-100" alt="satisfactory">
+
+                        {% if game.pictures.last != false %}
+                            <img src="{{ game.pictures.last.url }}"
+                                 alt="{{ game.name }}" class="w-100">
+                        {% else %}
+                            <img src="/assets/images/satisfactory.png" class="w-100" alt="satisfactory">
+                        {% endif %}
                     </div>
                 </div>
             </section>

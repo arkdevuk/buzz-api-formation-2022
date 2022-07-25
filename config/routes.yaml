@@ -28,8 +28,10 @@ page_index_steam:
   controller: App\Controller\SteamController::index
 
 page_produit_steam:
-  path: /steam/product
+  path: /steam/product/{slug}
   controller: App\Controller\SteamController::product
+  requirements:
+    slug: '[a-zA-Z1-9\-_\/]+'
 
 page_form_steam:
   path: /steam/form
