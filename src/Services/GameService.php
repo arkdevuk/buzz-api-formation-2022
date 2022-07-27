@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Game;
+use App\Entity\GameGenre;
 use Doctrine\ORM\EntityManagerInterface;
 
 class GameService
@@ -14,13 +15,41 @@ class GameService
         $this->em = $em;
     }
 
+    public function getSimilarGames(Game $game): array
+    {
+        $allTypes = $game->getType()->toArray();
+        $gameRepo = $this->em->getRepository(Game::class);
+        $qb = $gameRepo->createQueryBuilder('g');
+        $qb = $qb
+            ->where('1 = 1')
+            ->andWhere('g.id != :id')
+            ->setParameter('id', $game->getId())
+            ->andWhere(':alltypes MEMBER OF g.type')
+            ->setParameter('alltypes', $allTypes)
+            ->orderBy('g.dateRelease', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
 
+    /**
+     * get a game by slug
+     *
+     * @param string $slug
+     * @return Game|null
+     */
     public function getBySlug(string $slug): ?Game
     {
         return $this->em->getRepository(Game::class)
             ->findOneBy(['slug' => $slug]);
     }
 
+    /**
+     * get a list of game by page
+     *
+     * @param int $page
+     * @param int $perPage
+     * @param bool $countMode - default false
+     * - if true, return the number of games without pagination
+     */
     public function getGames(
         int  $page = 1,
         int  $perPage = 10,

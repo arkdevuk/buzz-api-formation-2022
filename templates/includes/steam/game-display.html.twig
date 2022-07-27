@@ -34,11 +34,8 @@
                                class="btn btn-primary">+</a>
                         </div>
                     </div>
-                    <div class="price">
-                        <div class="h3 text-warning m-0">
-                            {{ gameDisplay.price }}€
-                        </div>
-                    </div>
+                    {% import "macros/pricing.macro.twig" as pricingMacro %}
+                    {{ pricingMacro.pricing(gameDisplay.price, gameDisplay.promotion) }}
                 </div>
             </div>
         </div>

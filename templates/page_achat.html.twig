@@ -22,7 +22,7 @@
 
                     <div class="col-12 col-md-4">
                         {% for img in game.pictures %}
-                            {% if not loop.first and loop.index <= 4 %}
+                            {% if not loop.first and loop.index <= 3 %}
                                 <div class="mb-2 hero-header-img-small">
                                     <img src="{{ img.url }}" alt="{{ game.name }}" class="w-100">
                                 </div>
@@ -74,9 +74,14 @@
                     </div>
                     <div class="col-12 col-md-9 mt-4">
                         <div class="d-flex justify-content-end">
+                            <div class="px-2">
+                                {% import "macros/pricing.macro.twig" as pricingMacro %}
+                                {{ pricingMacro.pricing(game.price, game.promotion) }}
+                            </div>
+
                             <a href="{{ path('page_form_steam') }}" class="btn btn-warning btn-lg me-2">Ajouter au
                                 panier !</a>
-                            <a href="{{ path('page_form_steam') }}" class="btn btn-primary btn-lg">Jeux similaires</a>
+                            <a href="#game-suggestion" class="btn btn-primary btn-lg">Jeux similaires</a>
                         </div>
                     </div>
                 </div>
@@ -115,6 +120,25 @@
                         {% endif %}
                     </div>
                 </div>
+
+                <section id="game-suggestion" class="game-suggestion">
+                    <div class="d-block h3 pt-4 mb-4">Jeux similaires</div>
+                    {% if similarGames|length <= 0 %}
+                        <div class="w-100 d-flex justify-content-center align-items-center">
+                            <div class=" text-muted p-3">aucun jeu 😅</div>
+                        </div>
+                    {% else %}
+                        <div class="w-100">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+                                {% for sgame in similarGames %}
+                                    {% include 'includes/steam/game-card.html.twig' with {'game': sgame} %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </section>
+
+
             </section>
         </div>
     </main>

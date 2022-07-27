@@ -17,7 +17,7 @@ class SteamController extends AbstractController
 {
     public function index(GameService $gameService, Request $request): Response
     {
-        $perPage = 1;
+        $perPage = 8;
         $page = (int)$request->get('page', 1);
 
         $gamesDisplay = $gameService->getGames(1, 1);
@@ -52,9 +52,13 @@ class SteamController extends AbstractController
             throw new NotFoundHttpException('Game not found');
         }
 
+        $similarGames = $gameService->getSimilarGames($game);
+
+
         return $this->render('page_achat.html.twig', [
             'controller_name' => 'SteamController',
             'game' => $game,
+            'similarGames' => $similarGames,
         ]);
     }
 
