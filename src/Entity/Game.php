@@ -48,6 +48,9 @@ class Game
     #[ORM\Column(type: 'text')]
     private $description;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $youtubeLink;
+
     public function __construct(string $name,
                                 float  $price = 0,
                                 array  $platforms = [])
@@ -216,6 +219,38 @@ class Game
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getYoutubeLink(): ?string
+    {
+        return $this->youtubeLink;
+    }
+
+    public function getYoutubeID(): ?string
+    {
+        if ($this->youtubeLink === null) {
+            return null;
+        }
+        $url = parse_url($this->youtubeLink);
+        if ($url === false) {
+            return null;
+        }
+        $query = $url['query'];
+        $query = explode('&', $query);
+        foreach ($query as $q) {
+            $q = explode('=', $q);
+            if ($q[0] === 'v') {
+                return $q[1];
+            }
+        }
+        return $this->youtubeLink;
+    }
+
+    public function setYoutubeLink(?string $youtubeLink): self
+    {
+        $this->youtubeLink = $youtubeLink;
 
         return $this;
     }

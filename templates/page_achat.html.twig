@@ -59,6 +59,19 @@
                 <h1 class="text-uppercase">{{ game.name }}</h1>
                 <p>{{ game.description }}</p>
 
+                {% if game.youtubeLink is not null %}
+                    <section class="youtube-video d-flex justify-content-center align-items-center">
+                        <div class="video-wrapper p-2">
+                            <iframe width="560" height="315"
+                                    src="https://www.youtube-nocookie.com/embed/{{ game.youtubeID }}?controls=0"
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                        </div>
+                    </section>
+                {% endif %}
+
                 <div class="row  align-items-center justify-content-between">
                     <div class="col-12 col-md-3 mt-4">
                         <div class="avis-text me-4">
