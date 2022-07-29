@@ -15,15 +15,18 @@
 
                 <div class="d-block d-sm-flex justify-content-between">
                     <div class="d-block d-sm-flex align-items-center">
+
                         <div class="avis-text me-4 mb-2 mb-sm-0">
-                            <p class="m-0">Review 3,4K</p>
-                            <div class="avis d-flex align-items-center">/<img
-                                        src="/assets/images/emojione_star.png" alt="star" class="star ">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                                <img src="/assets/images/emojione_star.png" alt="star"
-                                     class="star disabled">
+                            {% if gameDisplay.reviewCount is null or gameDisplay.reviewCount <= 0 %}
+                                <p class="m-0 text-muted">No Review</p>
+                            {% else %}
+                                <p class="m-0">Review <span
+                                            style="white-space:nowrap">{{ gameDisplay.reviewCount|number_format(0, ',', ' ') }}</span>
+                                </p>
+                            {% endif %}
+                            <div class="avis d-flex align-items-center">
+                                {% import "macros/pricing.macro.twig" as pricingMacro %}
+                                {{ pricingMacro.review_stars(gameDisplay.averageReview) }}
                             </div>
                         </div>
                         <div class="d-flex  mb-2 mb-sm-0">
@@ -45,7 +48,8 @@
             {% for img in gameDisplay.pictures %}
                 {% if not loop.first and loop.index <= 3 %}
                     <div class="mb-2 hero-header-img-small">
-                        <img src="{{ img.url }}" alt="{{ gameDisplay.name }}" class="w-100">
+                        <img style="border-radius: 20px;"
+                             src="{{ img.url }}" alt="{{ gameDisplay.name }}" class="w-100 border-3">
                     </div>
                 {% endif %}
             {% endfor %}

@@ -32,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Cart::class)]
     private $carts;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Review::class)]
+    private $reviews;
+
     public function __construct(string $username,
                                 string $email,
                                 array  $roles = ['ROLE_USER', 'ROLE_CUSTOMER'])
@@ -40,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
         $this->email = $email;
         $this->carts = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +152,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($cart->getOwner() === $this) {
                 $cart->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getUser() === $this) {
+                $review->setUser(null);
             }
         }
 

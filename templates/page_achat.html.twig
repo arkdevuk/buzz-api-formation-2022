@@ -24,7 +24,8 @@
                         {% for img in game.pictures %}
                             {% if not loop.first and loop.index <= 3 %}
                                 <div class="mb-2 hero-header-img-small">
-                                    <img src="{{ img.url }}" alt="{{ game.name }}" class="w-100">
+                                    <img src="{{ img.url }}" style="border-radius: 20px;" alt="{{ game.name }}"
+                                         class="w-100">
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -75,13 +76,16 @@
                 <div class="row  align-items-center justify-content-between">
                     <div class="col-12 col-md-3 mt-4">
                         <div class="avis-text me-4">
-                            <p class="m-0">Review 3,4K</p>
+                            {% if game.reviewCount is null or game.reviewCount <= 0 %}
+                                <p class="m-0 text-muted">No Review</p>
+                            {% else %}
+                                <p class="m-0">Review <span
+                                            style="white-space:nowrap">{{ game.reviewCount|number_format(0, ',', ' ') }}</span>
+                                </p>
+                            {% endif %}
                             <div class="avis d-flex align-items-center">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star">
-                                <img src="/assets/images/emojione_star.png" alt="star" class="star disabled">
+                                {% import "macros/pricing.macro.twig" as pricingMacro %}
+                                {{ pricingMacro.review_stars(game.averageReview) }}
                             </div>
                         </div>
                     </div>
@@ -129,6 +133,7 @@
 
                         {% if game.pictures.last != false %}
                             <img src="{{ game.pictures.last.url }}"
+                                 style="border-radius: 20px;"
                                  alt="{{ game.name }}" class="w-100">
                         {% else %}
                             <img src="/assets/images/satisfactory.png" class="w-100" alt="satisfactory">

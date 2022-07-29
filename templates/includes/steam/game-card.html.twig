@@ -21,14 +21,16 @@
 
             <div class="card-footer d-flex align-items-center justify-content-between p-0 border-0 mt-4">
                 <div class="avis-text me-4">
-                    <p class="m-0">Review 3,4K</p>
+                    {% if game.reviewCount is null or game.reviewCount <= 0 %}
+                        <p class="m-0 text-muted">No Review</p>
+                    {% else %}
+                        <p class="m-0">Review <span
+                                    style="white-space:nowrap">{{ game.reviewCount|number_format(0, ',', ' ') }}</span>
+                        </p>
+                    {% endif %}
                     <div class="avis d-flex align-items-center">
-                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
-                        <img src="/assets/images/emojione_star.png" alt="star"
-                             class="star disabled">
+                        {% import "macros/pricing.macro.twig" as pricingMacro %}
+                        {{ pricingMacro.review_stars(game.averageReview) }}
                     </div>
                 </div>
 

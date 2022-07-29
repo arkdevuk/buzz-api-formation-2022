@@ -51,6 +51,15 @@ class Game
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $youtubeLink;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Review::class)]
+    private $reviews;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $averageReview;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $reviewCount;
+
     public function __construct(string $name,
                                 float  $price = 0,
                                 array  $platforms = [])
@@ -64,6 +73,7 @@ class Game
 
         $this->type = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,6 +269,60 @@ class Game
     public function setYoutubeLink(?string $youtubeLink): self
     {
         $this->youtubeLink = $youtubeLink;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getGame() === $this) {
+                $review->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAverageReview(): ?float
+    {
+        return $this->averageReview;
+    }
+
+    public function setAverageReview(?float $averageReview): self
+    {
+        $this->averageReview = $averageReview;
+
+        return $this;
+    }
+
+    public function getReviewCount(): ?int
+    {
+        return $this->reviewCount;
+    }
+
+    public function setReviewCount(?int $reviewCount): self
+    {
+        $this->reviewCount = $reviewCount;
 
         return $this;
     }
