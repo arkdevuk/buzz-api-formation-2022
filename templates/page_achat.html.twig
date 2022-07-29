@@ -92,8 +92,10 @@
                                 {{ pricingMacro.pricing(game.price, game.promotion) }}
                             </div>
 
-                            <a href="{{ path('page_form_steam') }}" class="btn btn-warning btn-lg me-2">Ajouter au
-                                panier !</a>
+                            <a href="#"
+                               data-id="{{ game.id }}"
+                               class="btn btn-warning btn-lg me-2 add-to-cart">Ajouter au
+                                panier 🛒 !</a>
                             <a href="#game-suggestion" class="btn btn-primary btn-lg">Jeux similaires</a>
                         </div>
                     </div>

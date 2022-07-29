@@ -40,11 +40,13 @@ steam_api_add_game_into_cart:
   path: /apic/steam/cart
   controller: App\Controller\SteamApiController::addToCart
   methods: POST
-  
+
 steam_api_remove_game_from_cart:
-  path: /apic/steam/cart
+  path: /apic/steam/cart/{gameid}
   controller: App\Controller\SteamApiController::deleteFromCart
   methods: DELETE
+  requirements:
+    gameid: \d+
 
 page_index_steam:
   path: /
@@ -63,3 +65,7 @@ page_cart_content:
 page_form_steam:
   path: /form
   controller: App\Controller\SteamController::form
+
+search_game_steam:
+  path: /search
+  controller: App\Controller\SteamController::search

@@ -137,5 +137,22 @@ class SteamController extends AbstractController
         ]);
     }
 
+    public function search(
+        Request     $request,
+        CartManager $cm,
+        GameService $gameService,
+    ): Response
+    {
+        $cm->_initCart();
+        $query = $request->query->get('q', '');
+        $results = $gameService->searchQuery($query);
+        return $this->render('steam/search_display.html.twig', [
+            'controller_name' => 'SteamController',
+            'cart' => $cm->getUserActualCart(),
+            'query' => $query,
+            'searchItems' => $results,
+        ]);
+    }
+
 
 }
